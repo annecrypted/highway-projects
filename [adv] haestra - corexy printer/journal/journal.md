@@ -25,3 +25,24 @@ spent the whole evening modeling the stepper bracket. got halfway before realizi
 backed up and redesigned the motor mount as a two-part bracket: a printed angled faceplate and a bolt-on tensioner arm. i modeled the arm as a 2020 inset to save material and clamp directly onto the frame. it flexes in CAD, though. might need ribs.
 
 also did some napkin math on belt length. GT2 belt perimeters look like they’ll land around ~940mm. i think a single 5m closed loop will cover XY and z-sync if i route it smart.
+
+## day 04 (date 06/06) | hours 8 - 10 | 22:30 - 01:30
+
+x-gantry time. used a 2020 crossbar with MGN12H carriage underneath, running along Y. hotend carriage rides directly on it. spacing between gantry and belt paths is now only 7.2mm, just enough for a zip-tied belt to not rub.
+
+couldn’t decide on how to clamp belts to the carriage. toyed with tensioners, pins, even weird sliding T-nuts, but ended up with a notched block + bolt-down plate. oldschool.
+also changed rail mounts to use M3x6mm with t-nuts, but i don’t have the low-profile heads modeled yet. made a note to check if i can find them cheap in ali bulk packs.
+
+stalled out a bit trying to decide if the XY tensioners should float or be fixed into the frame. leaning float, it'll mean less frame deformation under belt load.
+
+## day 05 (date 06/08) | hours 11 - 13 | 22:00 - 01:00
+no modeling today, just firmware config and pinout stuff.
+mocked up a klipper config for the MCU: probably gonna use a skr mini e3 v2 since it’s what i have on hand. tried mapping XY to TMC2209s and z to a single 2208. haven’t defined heaters yet.
+
+configured basic corexy kinematics and added:
+- `rotation_distance: 40.0` for XY (16T pulley, GT2)
+- `microsteps: 16`
+- `endstop_pin` config for virtual XY min
+- z stepper at `rotation_distance: 8.0` (TR8x2 guess)
+
+flashed an old .bin just to test power-on. got heartbeat. no errors. it lives!
