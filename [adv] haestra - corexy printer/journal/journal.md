@@ -46,3 +46,43 @@ configured basic corexy kinematics and added:
 - z stepper at `rotation_distance: 8.0` (TR8x2 guess)
 
 flashed an old .bin just to test power-on. got heartbeat. no errors. it lives!
+
+## day 06 (date 06/10) | hours 14 - 16 | 23:00 - 02:00
+z-axis modeling. i keep redoing this because it’s so dumbly hard to route a clean Z motion chain inside a compact frame. settled on two smooth rods (8mm) and one TR8 leadscrew in the middle, rear-side. carriage blocks will be printed and ride dual linear bearings. leadscrew is constrained by a nut in the bed platform and a motor below with a flexible coupler.
+
+spacing is tight. bed is gonna be like 160x160 max. thought about buying MGN12 rails for z too but they’re like $16 each even on ali. sticking with rods.
+made a placeholder bed plate in CAD just to check bounds. it’ll probably sit on three screws,,,, triangular layout for tramming.
+
+## day 07 (date 06/12) | hours 17 - 19 | 20:30 - 23:30
+
+went back to the XY motor mounts. realized my original idea had the belts entering the pulleys at a shallow angle — risk of rubbing on the pulley rim.
+
+tried reshaping the bracket but couldn’t get enough clearance without raising the whole gantry by 4mm, which i don't want. settled on rotating the steppers slightly outward. reparameterized the bracket so pulley centers sit 11.5mm from edge of 2020, then aligned gantry rail centerline.
+
+cad kept bugging out on me. one constraint loop refused to solve until i rebuilt it from scratch. burned 40 minutes on one sketch dimension, because i forgot fusion doesn’t like projecting sketches between contexts.
+
+also found a cheaper 16T idler listing on ali with proper flanges + 5mm bore. $6.80 for 10 — cheaper than local resellers. saved the link.
+
+## day 08 (date 06/14) | hours 20 - 22 | 21:00 - 00:00
+modeled the XY idler blocks and tried to make them clamp directly into the 2020 extrusion slots without any T-nuts. doesn’t work. extrusion corners round off just enough that the printed block rocks side to side under tension.
+
+added small alignment tabs on the underside, just enough to seat the part. now using one bolt into a slot nut to secure. sketched a new profile that locks the GT2 belt path with a small ledge. modeled both front and rear blocks, mirrored.
+
+also added mounting holes for possible tensioner screws later. don’t want to overcomplicate the first pass.
+
+measured total belt path length — about 970mm per loop. might need to route Z belts under the bed instead of through gantry if i want everything tight.
+
+## day 09 (date 06/15) | hours 23 - 25 | 22:00 - 01:00
+bed platform again. tried placing the smooth rods at 140mm spacing but my carriages overlap with Z nut at the rear. shrunk it to 120mm and offset the TR8 screw a bit forward, now the bed centerlines properly and i get better screw access too.
+
+modeled a rough bed carriage: basically a flat plate with three bolt holes for leveling screws and a rear block that slides over the nut. the block was too wide so i cut out 4mm off each side and made it asymmetrical.
+
+also drew up a little part to hold the Z smooth rods at the top, just a slotted printed cap that bolts into the extrusion with one M5. works okay in CAD but could probably flex.
+
+firmware side: added `safe_z_home: true` and set `position_min: -2` for Z to give me some headroom during probing later. configured virtual endstops for corexy motion but still haven’t decided how i’ll wire physical switches.
+
+## day 10 (date 06/16) | hours 26 - 28 | 20:00 - 23:00
+i started working on a printable toolhead mount that fits a dragon clone hotend — but then realized it’s too tall and puts the nozzle 24mm below gantry. huge waste of Z travel. scrapped it.
+modeled a new carriage based around a short e3d v6 clone block (21mm tall, aliExpress $8.25). designed it to slide into the MGN12H carriage with two M3s and a keyed print notch. added slots for zip-tied belts. forgot belt exit path though.
+
+belt clamps were off by 2.5mm ,, i’d drawn them based on belt centerline, but didn’t account for tooth clearance. redrew the clamping plate with two pins and a recessed screw hole. belts now tuck cleanly without curling. considered switching to 9mm belts, but they’re ~1.6x price and overkill for this frame. sticking to 6mm GT2.
