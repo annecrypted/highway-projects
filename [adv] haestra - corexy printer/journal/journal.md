@@ -83,6 +83,43 @@ firmware side: added `safe_z_home: true` and set `position_min: -2` for Z to giv
 
 ## day 10 (date 06/16) | hours 26 - 28 | 20:00 - 23:00
 i started working on a printable toolhead mount that fits a dragon clone hotend — but then realized it’s too tall and puts the nozzle 24mm below gantry. huge waste of Z travel. scrapped it.
+
 modeled a new carriage based around a short e3d v6 clone block (21mm tall, aliExpress $8.25). designed it to slide into the MGN12H carriage with two M3s and a keyed print notch. added slots for zip-tied belts. forgot belt exit path though.
 
 belt clamps were off by 2.5mm ,, i’d drawn them based on belt centerline, but didn’t account for tooth clearance. redrew the clamping plate with two pins and a recessed screw hole. belts now tuck cleanly without curling. considered switching to 9mm belts, but they’re ~1.6x price and overkill for this frame. sticking to 6mm GT2.
+
+## day 11 (date 06/18) | hours 29 - 31 | 21:00 - 00:00
+decided to fix the XY belt routing completely. i’d left the return path vague but turns out the belt touches the top MGN rail if i keep the steppers too low.
+
+redesigned the motor mounts again. this time i lowered the motor face by 3mm, cut out a pocket so the belt returns under the rail without collision. now the idler block sits just above the lower extrusion and clears the pulley.
+
+also tried slotting the belt tensioner screw through the motor mount but it looked messy. moved it into the idler block instead — side-mounted M3 with a compression tab.
+
+ran out of time while doing sketches for the rear corner blocks. they’ll need belt routing, extrusion joining, and maybe LED slotting if i ever add lighting.
+
+## day 12 (date 06/20) | hours 32 - 34 | 22:30 - 01:30
+spent an hour just hunting down mgn12 cad files that actually match what aliExpress clones ship. most of the official Hiwin ones have extra chamfers that aren’t realistic.
+
+remodeled the carriage to use real-world bolt spacing: 20mm square, with slightly oversized slots to compensate for cheap tolerances.
+
+used parametric offset in the belt anchor sketch so i can bump the belt grip 0.25mm if needed. kept holes symmetrical, no zip tie path for now.
+
+also started sketching an optional cable chain anchor at the back of the carriage. very basic loop slot with 2x m3 holes. undecided if it’ll be side-mount or top-exit.
+
+klipper config: added `[input_shaper]`, `[mcu]`, and the `[stepper_*]` blocks just as placeholders. no pin mapping yet. thinking of using a spare Manta M4P, but might switch to SKR Mini for price. both support sensorless homing.
+
+## day 13 (date 06/21) | hours 35 - 37 | 19:30 - 22:30
+more z axis fixing. i think i overconstrained the bed in CAD oooo so the smooth rods sit perfectly parallel, but the nut block now jams when the rods are spaced less than 124mm. probably tolerance stack-up from too many fixed mates.
+
+tweaked the carriage sketch to use construction geometry instead of direct constraints. added ±0.2mm side clearance on the nut mount. also tried modeling a fixed pulley for future bed belt lift (just in case). not pursuing that right now,, might make the whole thing wobble under load.
+
+switched to manual screw lift for now. will lock Z stepper into place under the bed using a printed plate and two side clamps bolted into the lower 2020 extrusion. still unsure how to brace the bottom of the TR8.
+
+## day 14 (date 06/23) | hours 38 - 40 | 21:15 - 00:15
+spent most of tonight rethinking the hotend mount again. i tried to reuse the V6 clamp idea from before but this time i split it into two vertical halves with a dovetail key.
+
+needed it to be tool-free but still rigid. the solution was two lateral screws that pull the halves together, clamping the groove mount in place. added a built-in 5015 blower mount facing sideways, with slots for zip ties.
+
+realized mid-way that the part would interfere with the X belt path if mounted directly on top of the MGN block. so i raised the whole hotend by 2mm and shifted belts slightly outward.
+
+created a basic duct placeholder,,, just a half-shell with an M2.5 insert planned. too small for real testing yet but gives me volume constraints for later.
