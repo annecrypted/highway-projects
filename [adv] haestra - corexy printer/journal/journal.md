@@ -123,3 +123,55 @@ needed it to be tool-free but still rigid. the solution was two lateral screws t
 realized mid-way that the part would interfere with the X belt path if mounted directly on top of the MGN block. so i raised the whole hotend by 2mm and shifted belts slightly outward.
 
 created a basic duct placeholder,,, just a half-shell with an M2.5 insert planned. too small for real testing yet but gives me volume constraints for later.
+
+## day 15 (date 06/25) | hours 41 - 43 | 20:45 - 23:45
+tonight was mostly about merging parts into subassemblies in fusion. i hadn’t realized how much clutter i’d left in the top-level model — dozens of sketches floating in space and two versions of the gantry rail.
+
+moved all toolhead components into a single component. discovered the Y carriage offset was inconsistent depending on how i mated the MGN block. redid all mates from scratch. tried capturing design history but fusion kept slowing down — disabled it for now.
+
+exported the cleaned-up assembly and checked rough weight balance. toolhead + carriage combo comes to about 185g. might need to reduce the blower duct thickness.
+
+also tested a few ways to lock the belt clamp inside the carriage. tab + compression pad seems better than pinching — less deformation.
+
+## day 16 (date 06/27) | hours 44 - 46 | 22:15 - 01:15
+started creating wiring placeholders. made a sketch layer for rough cable routing: steppers, endstops, hotend, bed, and fans. nothing precise, just a planning pass.
+
+placed JST-style connectors around the toolhead zone. want the harness to enter from behind the X rail, through a strain relief. still debating whether to route cable chain from the back of the printer or from the top.
+
+did a quick Klipper board power analysis ,,, ooo 5015 + hotend + steppers will sit well under 12V 240W total even with buffer. noted some cheaper PSU options on aliExpress ($16 shipped for 12V 30A). still unsure if i want 12V or 24V fans though.
+
+cut a hole in the back of the top extrusion for future drag chain mount. won’t finalize it until the toolhead cabling is clearer. confusion ensues. wisdom tooth pain.
+
+## day 17 (date 06/29) | hours 47 - 49 | 19:00 - 22:00
+firmware tonight. fleshed out `printer.cfg` w rough definitions for all steppers and default pinouts assuming Manta M4P board. X and Y steppers mapped to `PA0` and `PA1`, Z on `PB3`, and E0 left unconnected for now.
+
+set microstepping to 16 with interpolation, acceleration to 3000, jerk limits low. no PID tuning yet. bed size defined as 220x220x240. safe Z-home active.
+also added a virtual `[bed_screws]` section and placeholders for `input_shaper` macros. dropped in a commented `mcu temperature` section just in case.
+klippy simulator showed no errors. saved the config in `/printer_config/haestra-printer.cfg`.
+
+## day 18 (date 07/01) | hours 50 - 53 | 20:30 - 23:30
+finally addressed the gantry rail clamping. was using a plain notch in the XY mounts, but that caused twist under belt tension in simulation.
+switched to a dovetail rail cut with a press-fit printed block. added two vertical compression bolts. simulated belt pull at 1.8kg && block held without deformation.
+
+also tried a mockup of sensorless homing with TMC2209. klipper lets me enable stealthchop by default, and fallback to spreadcycle for homing. might need extra current during homing, which could trigger false alarms on long moves. logged this as a TODO for later.
+
+poked around in klipper macros again. drafted a placeholder macro for `G28` that sequences X/Y/Z in stages, and a basic `PAUSE` macro that moves to 150x150x10.
+
+## day 19 (july 3) | hours 53–56 | 14:00 – 17:00
+bit of a slow warmup. kept opening the z assembly and just poking around. i think the double pulley setup i made for the z sync belt was making the belt loop too long & ended up reworking the position of the anchor so it sits closer to the tension side. might still have too much slack.
+
+i also started sketching a breakout pcb mount near the toolhead. thought i could sneak it into a small corner under the x rail, but there’s not enough clearance for a connector header and cable strain relief. maybe zip-tie to the drag chain bracket instead. not elegant, but i’m tired. lowk was hoping to also get the fan duct outline started but couldn’t focus by the end.
+
+** btw my hours include research / scrapping / brainstorming also **
+
+## day 20 (july 4) | hours 56–59 | 16:00 – 19:00
+got the rear panel layout reworked with slightly tighter spacing between the psu and board. angled the board just a bit to make space for the drag chain mount. doesn’t look super neat in cad, but it solves like three problems at once so i’m sticking with it.
+
+finally decided to move the z belt tensioners fully under the bed instead of keeping them at the back. it’s gonna be annoying to tension post-assembly but cleaner from a routing perspective. will need to mirror the idler holes and redo the anchor tabs.
+
+also reduced the main rear extrusion from 2040 to 2020 just to test, saved about 140g total. might keep it. idk. my tooth hurts.
+
+## day 21 (july 5) | hours 59–62 | 13:00 – 16:00
+back to gantry. started messing with carriage endstop mounts again, this time testing a magnet + hall sensor idea. i was going to just stick with a microswitch but realized i could save wiring and enclosure space with a magnetic trigger, assuming the magnet doesn’t drift over time.
+
+also went back and thickened the motor plate fillets. they felt too fragile, especially around the lower belt mount slots. probably overkill but i’m paranoid. tweaked the step file export again just to check for errors. somehow i’ve ended up with three different folders named “final-final-v6”.
