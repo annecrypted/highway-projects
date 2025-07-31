@@ -1,4 +1,9 @@
 # haestra
+> **tldr:**
+made by @anne | total points im aiming for : 10 <br>
+total hours: like 75 (including research + that research went overlapped w inquill) <br>
+bom: 360$ | expected funding: 350$ + printed parts <3
+
 haestra is a from-scratch, corexy 3d printer designed to be compact, clean, quiet, and mechanically satisfying. it's not meant to be flashy or experimental?? well ig?? i mean its just a solid, no-nonsense platform that can actually be built without hunting for obscure hardware that costs 7138$. it's made for fitting right on my bench and keeping it maintainable once it's there. and it looks nice while doing that, so thats even better but in a nutshell, it's made for ... well me. 
 
 <img src=img/haestra-preview.png width=47% height=47%>
