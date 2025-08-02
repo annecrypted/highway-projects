@@ -12,6 +12,7 @@ no cad, mostly just sketched and set goals:
 also: keep the total BOM under **$350**, so be smart about sourcing parts. 
 basically i was trying to visualize the motor placement without eating up Z height.
 
+
 ## day 02 (date 06/03) | hours 2 - 4 | 22:00 - 01:00
 
 reopened the base frame sketch and realized i didn’t account for t-slot clearance in the corner brackets. started resizing every corner gap to make space for actual fasteners, not just perfect unions.
